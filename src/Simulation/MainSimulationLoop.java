@@ -2,12 +2,14 @@ package Simulation;
 
 import org.lwjgl.opengl.Display;
 
+import Models.RawModel;
+import Models.TexturedModel;
 import RenderEngine.DisplayManager;
 import RenderEngine.Loader;
-import RenderEngine.RawModel;
 import RenderEngine.Renderer;
 
 import Shaders.StaticShader;
+import Textures.ModelTexture;
 
 public class MainSimulationLoop {
 
@@ -32,8 +34,18 @@ public class MainSimulationLoop {
 		         0,1,3,
 		         3,1,2
 		 };
+		 
+		 float[] textureCoords = 
+		 {
+				 0, 0,
+				 0, 1,
+				 1, 1,
+				 1, 0
+		 };
 		
-		RawModel model = loader.loadToVAO(vertices, indices);
+		RawModel model = loader.loadToVAO(vertices, indices, textureCoords);
+		ModelTexture texture = new ModelTexture(loader.loadTexture("Test_Texture"));
+		TexturedModel texturedModel = new TexturedModel(model, texture);
 		
 		while (!Display.isCloseRequested()) 
 		{
@@ -41,7 +53,7 @@ public class MainSimulationLoop {
 			shader.start();
 			
 			//Render things here
-			renderer.render(model);
+			renderer.render(texturedModel);
 			
 			shader.stop();
 			DisplayManager.updateDisplay(); 
