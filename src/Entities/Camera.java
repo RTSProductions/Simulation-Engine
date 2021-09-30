@@ -1,7 +1,5 @@
 package Entities;
 
-import java.awt.event.MouseEvent;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
@@ -16,6 +14,10 @@ public class Camera
 	public Camera()
 	{
 		
+	}
+	public Camera(Vector3f position)
+	{
+		this.position = position;
 	}
 	
 	public void move()
@@ -62,7 +64,6 @@ public class Camera
 		float dz = (float) (moveAt * Math.cos(Math.toRadians(yaw)));
 		
 		float dx2 = (float) -(moveAt2 * Math.sin(Math.toRadians(yaw)));
-		float dy2 = (float) (moveAt2 * Math.sin(Math.toRadians(pitch)));
 		float dz2 = (float) -(moveAt2 * Math.cos(Math.toRadians(yaw)));
 		
 		position.x += (dx + dz2);

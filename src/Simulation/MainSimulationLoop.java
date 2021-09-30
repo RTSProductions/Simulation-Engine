@@ -1,5 +1,6 @@
 package Simulation;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -29,17 +30,13 @@ public class MainSimulationLoop {
 		RawModel pumpkinModel = OBJLoader.loadObjModel("Pumpkin", loader);
 		ModelTexture pumpkinTexture = new ModelTexture(loader.loadTexture("Pumpkin_Texture"));
 		TexturedModel pumpkinTexturedModel = new TexturedModel(pumpkinModel, pumpkinTexture);
-		Entity pumpkin = new Entity(pumpkinTexturedModel, new Vector3f(0, 0, -4), 0, 0, 0, 1);
-		
-		RawModel planeModel = OBJLoader.loadObjModel("Plane", loader);
-		ModelTexture planeTexture = new ModelTexture(loader.loadTexture("Plane_Texture"));
-		TexturedModel planeTexturedModel = new TexturedModel(planeModel, planeTexture);
-		
-		Entity plane = new Entity(planeTexturedModel, new Vector3f(0, -0.8f, -4), 0, 0, 0, 10);
+		Entity pumpkin = new Entity(pumpkinTexturedModel, new Vector3f(0, 0, 0), 0, 0, 0, 1);
 		
 		Light light = new Light(new Vector3f(0, 0, -2), new Vector3f(1, 1, 1));
 		
-		Camera camera = new Camera();
+		Camera camera = new Camera(new Vector3f(0, 0, 4));
+		
+		light.moveTo(camera.getPosition());
 		
 		while (!Display.isCloseRequested()) 
 		{
@@ -50,10 +47,10 @@ public class MainSimulationLoop {
 			
 			//Render things here
 			renderer.render(pumpkin, shader);
-			renderer.render(plane, shader);
 			camera.move();
 			pumpkin.increaseRotation(0, 1, 0);
-			light.moveTo(camera.getPosition());
+//			if (Keyboard.isKeyDown(Keyboard.KEY_F))
+//			light.moveTo(camera.getPosition());
 			
 			shader.stop();
 			DisplayManager.updateDisplay(); 
