@@ -16,6 +16,11 @@ public class Light
 	{
 		return color;
 	}
+	
+	public void moveTo(Vector3f targetPosition)
+	{
+		position = targetPosition;
+	}
 
 	public Light(Vector3f position, Vector3f color) 
 	{

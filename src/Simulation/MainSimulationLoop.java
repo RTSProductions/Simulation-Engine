@@ -26,10 +26,17 @@ public class MainSimulationLoop {
 		Renderer renderer = new Renderer(shader);
 		Loader loader = new Loader();
 		
-		RawModel model = OBJLoader.loadObjModel("Pumpkin", loader);
-		ModelTexture texture = new ModelTexture(loader.loadTexture("Pumpkin_Texture"));
-		TexturedModel texturedModel = new TexturedModel(model, texture);
-		Entity entity = new Entity(texturedModel, new Vector3f(0, 0, -4), 0, 0, 0, 1);
+		RawModel pumpkinModel = OBJLoader.loadObjModel("Pumpkin", loader);
+		ModelTexture pumpkinTexture = new ModelTexture(loader.loadTexture("Pumpkin_Texture"));
+		TexturedModel pumpkinTexturedModel = new TexturedModel(pumpkinModel, pumpkinTexture);
+		Entity pumpkin = new Entity(pumpkinTexturedModel, new Vector3f(0, 0, -4), 0, 0, 0, 1);
+		
+		RawModel planeModel = OBJLoader.loadObjModel("Plane", loader);
+		ModelTexture planeTexture = new ModelTexture(loader.loadTexture("Plane_Texture"));
+		TexturedModel planeTexturedModel = new TexturedModel(planeModel, planeTexture);
+		
+		Entity plane = new Entity(planeTexturedModel, new Vector3f(0, -0.8f, -4), 0, 0, 0, 10);
+		
 		Light light = new Light(new Vector3f(0, 0, -2), new Vector3f(1, 1, 1));
 		
 		Camera camera = new Camera();
@@ -42,9 +49,11 @@ public class MainSimulationLoop {
 			shader.loadLight(light);
 			
 			//Render things here
-			renderer.render(entity, shader);
+			renderer.render(pumpkin, shader);
+			renderer.render(plane, shader);
 			camera.move();
-			entity.increaseRotation(0, 1, 0);
+			pumpkin.increaseRotation(0, 1, 0);
+			light.moveTo(camera.getPosition());
 			
 			shader.stop();
 			DisplayManager.updateDisplay(); 
