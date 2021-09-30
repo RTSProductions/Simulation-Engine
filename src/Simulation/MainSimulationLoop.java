@@ -5,6 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import Entities.Camera;
 import Entities.Entity;
+import Entities.Light;
 import Models.RawModel;
 import Models.TexturedModel;
 import RenderEngine.DisplayManager;
@@ -29,6 +30,7 @@ public class MainSimulationLoop {
 		ModelTexture texture = new ModelTexture(loader.loadTexture("Pumpkin_Texture"));
 		TexturedModel texturedModel = new TexturedModel(model, texture);
 		Entity entity = new Entity(texturedModel, new Vector3f(0, 0, -4), 0, 0, 0, 1);
+		Light light = new Light(new Vector3f(0, 0, -2), new Vector3f(1, 1, 1));
 		
 		Camera camera = new Camera();
 		
@@ -37,6 +39,7 @@ public class MainSimulationLoop {
 			renderer.prepare();
 			shader.start();
 			shader.loadViewMatrix(camera);
+			shader.loadLight(light);
 			
 			//Render things here
 			renderer.render(entity, shader);
